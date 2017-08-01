@@ -1,0 +1,14 @@
+dist: trusty 
+language: c
+
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y swig python-dev libxml-xpath-perl libopendbx1-dev libcap-dev libselinux-dev procps  libgconf2-dev  libdbus-1-dev python3-dev librpm-dev rpm
+
+script:
+  - ./autogen.sh
+  - ./configure --enable-python3 --enable-perl --enable-sce
+  - make
+  - make check && sudo make install
+
+after_failure: "cat tests/API/OVAL/report_variable_values/test-suite.log"
